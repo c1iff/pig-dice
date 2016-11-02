@@ -1,0 +1,59 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.page-header h1 {
+  font-size: 100px;
+}
+
+.page-header {
+  text-align: center;
+}
+
+.gameplay {
+  display: none;
+  text-align: center;
+}
+
+.player-display li {
+  display: inline-block;
+  list-style: none;
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+ #player-name{
+   text-align: center;
+   width: 50%;
+   margin-left: 25%;
+
+ }
+
+.total-score {
+    text-align: center;
+    margin-bottom: 100px;
+}
+.total-score h3{
+  display: inline-block;
+  margin-right: 50px;
+}
+
+.winner {
+  display: none;
+  background-color: pink;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.jumbotron {
+  background-color: pink;
+}
+
+.jumbotron h1 {
+
+  font-size: 100px;
+}
+
+.add-player {
+  text-align: center;
+}

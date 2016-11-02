@@ -39,11 +39,11 @@ var nextPlayer = function(){
 Player.prototype.hold = function() {
   this.totalScore += this.currentTurn;
   if (this.totalScore >= 100) {
-    alert(this.username + ' wins!')
     currentGame.resetGame();
   }
   this.currentTurn = 0;
   nextPlayer();
+
 
 };
 
@@ -65,11 +65,17 @@ Game.prototype.getCurrentPlayer = function() {
 }
 
 Game.prototype.resetGame = function() {
-  this.players.forEach(function(player){
-    player.currentTurn = 0;
-    player.totalScore = 0;
-  })
+    var current = currentGame.getCurrentPlayer();
+    var winner = currentGame.players[current].username
+    currentGame.players = [];
+    $(".add-player").show();
+    $(".gameplay").hide();
+    $('#winning-user').text(winner)
+    $(".winner").show();
+
 }
+
+
 
 var currentGame = new Game();
 var playerNumber = 0;
@@ -84,6 +90,7 @@ $(document).ready(function() {
     currentGame.players[0].isCurrentPlayer = true;
     $(".total-score").append('<h3>' + newPlayer.username + '\'s Score: <span id="score-output-' + playerNumber +'"></span></h3>')
     playerNumber += 1;
+    $(".player-display ul").append('<li>Player ' + playerNumber + ': ' + playerName + '          </li>')
 
   });
 
@@ -111,5 +118,14 @@ $(document).ready(function() {
     console.log(currentGame);
   });
 
+
+  $("#start-game").click(function() {
+    $(".add-player").hide();
+    $(".gameplay").show();
+    $("#current-player").text(currentGame.players[0].username);
+    $("input#player-name").val("");
+    $(".player-display ul").text("");
+    $(".winner").hide();
+  });
 
 });
