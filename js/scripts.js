@@ -38,6 +38,10 @@ var nextPlayer = function(){
 
 Player.prototype.hold = function() {
   this.totalScore += this.currentTurn;
+  if (this.totalScore >= 100) {
+    alert(this.username + ' wins!')
+    currentGame.resetGame();
+  }
   this.currentTurn = 0;
   nextPlayer();
 
@@ -47,7 +51,7 @@ Game.prototype.getCurrentTurn = function() {
   currentGame.players.forEach(function(player){
     if (player.isCurrentPlayer === true ) {
       return player.currentTurn;
-      //console.log(player.isCurrentPlayer)
+
     }
   });
 }
@@ -58,6 +62,13 @@ Game.prototype.getCurrentPlayer = function() {
       return i;
     }
   }
+}
+
+Game.prototype.resetGame = function() {
+  this.players.forEach(function(player){
+    player.currentTurn = 0;
+    player.totalScore = 0;
+  })
 }
 
 var currentGame = new Game();
@@ -80,8 +91,12 @@ $(document).ready(function() {
     event.preventDefault();
     var current = currentGame.getCurrentPlayer();
     var die = currentGame.players[current].rollDie();
+    var current = currentGame.getCurrentPlayer();
+    $("#current-player").text(currentGame.players[current].username);
     $("#current-output").text(currentGame.players[current].currentTurn);
-    $("#current-roll").text(die);
+    $("#die").remove();
+    $(".current-total").append('<img src="img/die'+ die + '.png" alt="die" id="die"/>' );
+
     console.log(currentGame);
   });
 
@@ -90,7 +105,9 @@ $(document).ready(function() {
     var current = currentGame.getCurrentPlayer();
     currentGame.players[current].hold();
     $("#score-output-" + current + "").text(currentGame.players[current].totalScore);
+    var current = currentGame.getCurrentPlayer();
     $("#current-output").text(currentGame.players[current].currentTurn);
+    $("#current-player").text(currentGame.players[current].username);
     console.log(currentGame);
   });
 
