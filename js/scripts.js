@@ -19,17 +19,11 @@ Player.prototype.rollDie = function() {
     this.currentTurn += die;
   } else {
     this.currentTurn = 0;
-
       nextPlayer();
-    //  currentGame.players.forEach(function(player){
-    //   if (player.isCurrentPlayer === true ) {
-    //     player.isCurrentPlayer = false;
-    //   } else if (player.isCurrentPlayer === false) {
-    //     player.isCurrentPlayer = true;
-    //   }
-     //});
   };
+  return die;
 };
+
 var nextPlayer = function(){
   var current = currentGame.getCurrentPlayer();
   console.log(current);
@@ -45,13 +39,8 @@ var nextPlayer = function(){
 Player.prototype.hold = function() {
   this.totalScore += this.currentTurn;
   this.currentTurn = 0;
-  currentGame.players.forEach(function(player){
-    if (player.isCurrentPlayer === true ) {
-      player.isCurrentPlayer = false;
-    } else if (player.isCurrentPlayer === false) {
-      player.isCurrentPlayer = true;
-    }
-  });
+  nextPlayer();
+
 };
 
 Game.prototype.getCurrentTurn = function() {
@@ -72,6 +61,7 @@ Game.prototype.getCurrentPlayer = function() {
 }
 
 var currentGame = new Game();
+var playerNumber = 0;
 
 // User Interface Logic
 $(document).ready(function() {
@@ -81,14 +71,17 @@ $(document).ready(function() {
     var newPlayer = new Player(playerName);
     currentGame.players.push(newPlayer);
     currentGame.players[0].isCurrentPlayer = true;
+    $(".total-score").append('<h3>' + newPlayer.username + '\'s Score: <span id="score-output-' + playerNumber +'"></span></h3>')
+    playerNumber += 1;
+
   });
 
   $("#roll-die").submit(function(event) {
     event.preventDefault();
     var current = currentGame.getCurrentPlayer();
-    currentGame.players[current].rollDie();
+    var die = currentGame.players[current].rollDie();
     $("#current-output").text(currentGame.players[current].currentTurn);
-    //currentGame.getCurrentPlayer()
+    $("#current-roll").text(die);
     console.log(currentGame);
   });
 
@@ -96,7 +89,7 @@ $(document).ready(function() {
     event.preventDefault();
     var current = currentGame.getCurrentPlayer();
     currentGame.players[current].hold();
-    $("#score-output").text(currentGame.players[current].totalScore);
+    $("#score-output-" + current + "").text(currentGame.players[current].totalScore);
     $("#current-output").text(currentGame.players[current].currentTurn);
     console.log(currentGame);
   });
