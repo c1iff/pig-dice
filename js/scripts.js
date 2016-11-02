@@ -13,20 +13,26 @@ function Game() {
 };
 
 Player.prototype.rollDie = function() {
-  var die = Math.floor(Math.random()*6 + 1);
-  console.log(die);
-  if (die > 1) {
-    this.currentTurn += die;
-  } else {
+  var dieOne = Math.floor(Math.random()*6 + 1);
+  console.log(dieOne);
+  var dieTwo = Math.floor(Math.random()*6 + 1);
+  console.log(dieTwo);
+  if (dieOne > 1  && dieTwo > 1) {
+    this.currentTurn += (dieOne + dieTwo);
+  } else if(dieOne ===1 && dieTwo === 1){
+    this.totalScore =0;
+    this.currentTurn = 0;
+    nextPlayer();
+  }
+  else {
     this.currentTurn = 0;
       nextPlayer();
   };
-  return die;
+  return dieOne, dieTwo;
 };
 
 var nextPlayer = function(){
   var current = currentGame.getCurrentPlayer();
-  console.log(current);
   currentGame.players[current].isCurrentPlayer = false;
   if(current === currentGame.players.length - 1) {
     currentGame.players[0].isCurrentPlayer = true;
