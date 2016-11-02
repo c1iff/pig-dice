@@ -57,3 +57,7 @@ body {
 .add-player {
   text-align: center;
 }
+
+.form-group {
+  font-size: 18px;
+}
